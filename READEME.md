@@ -2,6 +2,7 @@
 
 A json-schema editor of high efficient and easy-to-use, base on React.
 
+![](./preview.png)
 
 ## Usage
 ```
