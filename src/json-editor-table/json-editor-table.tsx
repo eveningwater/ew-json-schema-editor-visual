@@ -8,12 +8,12 @@ import {
   schemaValidateRule,
   schemaTypeList,
 } from './const.ts';
-import ParentRadioGroup from './components/parent-radio-group.tsx';
+import ParentRadioGroup from '../components/parent-radio-group.tsx';
 import { addNode, deleteNode, getDeepKey, updateNode } from './utils.ts';
 import { state } from './state.ts';
 import type { InputData } from './data.d.ts';
-import FormList from './components/form-list.tsx';
-import AddRowButton from './components/add-row-button.tsx';
+import FormList from '../components/form-list.tsx';
+import AddRowButton from '../components/add-row-button.tsx';
 
 const FormListItemInputNumberComponent = ({ value, onChange }: { value?: number; onChange?: (value: number | null) => void; }) => (
   <InputNumber placeholder="请输入枚举值" value={value} onChange={onChange} style={{ width:'100%'}} />

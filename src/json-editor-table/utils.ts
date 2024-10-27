@@ -5,7 +5,7 @@ import { message } from 'antd';
 
 export const getDeepKey = (type: string) => (type === 'object' ? 'properties' : type === 'array' ? 'items' : '');
 
-export const addNode = <T extends Partial<InputData> & {key: string}>(parentKey: string, newNode: T) => {
+export const addNode = <T extends Partial<InputData> & { key: string }>(parentKey: string, newNode: T) => {
   const findNode = (nodes: Partial<InputData>[]) => {
     if (!parentKey) {
       nodes.push(newNode);
@@ -173,7 +173,7 @@ export const reverseTransformData = (output: OutputProperty) => {
         items,
         ...rest
       } = prop || {};
-      const res:OutputProperty = {
+      const res: OutputProperty = {
         title: key,
         key: `schema-1-${index + 1}`,
         is_required: required!.includes(key),
@@ -223,17 +223,17 @@ export enum parseStrType {
 }
 export const parseStr = <T>(str: string, type: parseStrType = parseStrType.JSON) => {
   const parseMethod = {
-      [parseStrType.EVAL]: <T>(v: string): T => new Function(`return ${v}`)(),
-      [parseStrType.JSON]: JSON.parse
+    [parseStrType.EVAL]: <T>(v: string): T => new Function(`return ${v}`)(),
+    [parseStrType.JSON]: JSON.parse
   }
   let res: T | null = null;
   try {
-      const method = parseMethod[type];
-      if(method){
-          res = method(str);
-      }
+    const method = parseMethod[type];
+    if (method) {
+      res = method(str);
+    }
   } catch (error) {
-      console.error(`[parse data error]:${error}`);
+    console.error(`[parse data error]:${error}`);
   }
   return res;
 }
