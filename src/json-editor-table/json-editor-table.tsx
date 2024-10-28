@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Table, Form, Modal, Input, Select, InputNumber, Alert, Empty } from 'antd';
 import { useTableColumn } from './use-table-column.tsx';
 import { useSnapshot } from 'valtio';
@@ -99,6 +99,7 @@ const JSONEditTableComponent = ({
   isRoot?: boolean;
 }) => {
   const [visible, setVisible] = useState(false);
+  const [isArrayHasChildren, setIsArrayHasChildren] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [form] = Form.useForm();
 
@@ -143,7 +144,13 @@ const JSONEditTableComponent = ({
     form.resetFields();
   };
 
-
+  useEffect(() => {
+    if (!isRoot) {
+      const nodes = state.schemaData;
+      const idx = nodes?.findIndex(item => item.type === 'array');
+      setIsArrayHasChildren(idx! > -1 && nodes![idx!].items!.length > 0);
+    }
+  }, [tableData]);
 
   return (
     <>
@@ -155,7 +162,7 @@ const JSONEditTableComponent = ({
           x: 1600,
         }}
         bordered={false}
-        footer={() => isRoot && tableData!.length > 0 ? null : <AddRowButton onClick={addRow}></AddRowButton>}
+        footer={() => (isRoot && tableData!.length > 0) || isArrayHasChildren ? null : <AddRowButton onClick={addRow}></AddRowButton>}
         expandable={{
           expandedRowRender: (record) => (
             <JSONEditTableComponent

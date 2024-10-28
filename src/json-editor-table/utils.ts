@@ -1,7 +1,6 @@
 import type { InputData, OutputProperty, Property } from './data.d.ts';
 import { isBoolean, isEmpty } from 'lodash-es';
 import { state } from './state.ts';
-import { message } from 'antd';
 
 export const getDeepKey = (type: string) => (type === 'object' ? 'properties' : type === 'array' ? 'items' : '');
 
@@ -16,11 +15,9 @@ export const addNode = <T extends Partial<InputData> & { key: string }>(parentKe
       if (node?.key === parentKey) {
         if (['object', 'array'].includes(node?.type!) && deepKey) {
           // 数组仅支持单一类型的嵌套
-          if (node?.type === 'array' && nodes.length > 0) {
-            message.error('数组当前仅支持单一类型的嵌套,无法继续添加,如想继续增加，可修改嵌套子类型为对象!');
-            return true;
-          } else {
+          if (node?.type === 'array' && node?.items!.length > 0) {
             node[deepKey]!.push(newNode);
+            return true;
           }
         }
         return true;

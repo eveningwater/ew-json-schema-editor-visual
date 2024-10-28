@@ -8,7 +8,7 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: 'src/index.ts',
+      entry: 'src/json-editor-table/index.ts',
       name: 'ewJsonSchemaEditorVisual',
       fileName: (format) => `ewjson-schema-editor-visual.${format}.js`,
     },
