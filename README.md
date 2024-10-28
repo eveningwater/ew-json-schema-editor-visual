@@ -9,14 +9,14 @@ A json-schema editor of high efficient and easy-to-use, base on React.
 npm install ew-json-schema-editor-visual
 ```
 
-```js
+```tsx
 import schemaEditor from "ew-json-schema-editor-visual"
-const [state,setState] = useState([])
-const onChange = (value) => {
+const [state,setState] = useState<string>('')
+const onChange = (value: string) => {
     console.log(value);
 }
 render(
-    <SchemaEditor value={state} onChange={onChange} />,
+  <SchemaEditor value={state} onChange={onChange} />,
   document.getElementById('root')
 )
 ```
