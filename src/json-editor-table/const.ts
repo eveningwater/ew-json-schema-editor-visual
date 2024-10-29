@@ -29,12 +29,12 @@ export const schemaTypeList = [
 export const schemaValidateRule = {
     string: [
         {
-            validateName: 'minLength',
+            validateName: 'maxLength',
             validateType: 'integer',
             validateLabel: '指定字符串的最大长度',
         },
         {
-            validateName: 'maxLength',
+            validateName: 'minLength',
             validateType: 'integer',
             validateLabel: '指定字符串的最小长度',
         },
