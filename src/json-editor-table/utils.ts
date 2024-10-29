@@ -16,9 +16,9 @@ export const addNode = <T extends Partial<InputData> & { key: string }>(parentKe
         if (['object', 'array'].includes(node?.type!) && deepKey) {
           // 数组仅支持单一类型的嵌套
           if (node?.type === 'array' && node?.items!.length > 0) {
-            node[deepKey]!.push(newNode);
             return true;
           }
+          node[deepKey]!.push(newNode);
         }
         return true;
       }
@@ -78,7 +78,7 @@ export const transformData = (input: InputData[]) => {
     const requiredFields: string[] = [];
 
     properties.forEach(property => {
-      const { title, properties: itemProperties = [], items, ...rest } = property;
+      const { title, properties: itemProperties = [], items = [], ...rest } = property;
       const { is_required, rule, type, description, enum: enumValue } = rest || {};
       const propertyObject = {} as OutputProperty;
       if (type) {
@@ -98,15 +98,11 @@ export const transformData = (input: InputData[]) => {
         }
       }
 
-      if (rest?.type === 'array' && items!.length > 0) {
+      if (rest?.type === 'array' && items.length > 0) {
         const { result: nestedResult } = deepProcessProperties(items!);
-        const nestedResultValue = nestedResult[items![0]?.title!];
+        const nestedResultValue = nestedResult[items[0]?.title!];
         // 目前数组仅支持单一类型
         propertyObject.items = nestedResultValue;
-        // 也不需要增加必填，如果是多个类型，就需要加
-        // if (is_required) {
-        //   propertyObject.required = nestedRequiredFields;
-        // }
       }
 
       if (!isEmpty(rule)) {
