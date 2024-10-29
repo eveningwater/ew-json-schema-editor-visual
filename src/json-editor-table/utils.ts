@@ -152,7 +152,35 @@ export const transformData = (input: InputData[]) => {
 
 export const reverseTransformData = (output: OutputProperty) => {
   const deepKey = getDeepKey(output.type!);
+  const generateKey = (base: string, index: number) => `${base}-${index}`;
 
+  const transformArrayItem = (
+    { type, description, usage, default: defaultValue, ...rest }: OutputProperty,
+    title: string,
+    is_required: boolean,
+    baseKey: string,
+  ) => {
+    const currentKey = generateKey(baseKey, 1);
+    const res: Property & { key: string } = {
+      key: currentKey,
+      title,
+      type,
+      description,
+      usage,
+      default: defaultValue,
+      is_required,
+    };
+
+    if (!isEmpty(rest)) {
+      res.rule = {};
+      Object.keys(rest).forEach(k => {
+        if (rest[k] && !['properties', 'items', 'key'].includes(k)) {
+          res.rule![k] = rest[k];
+        }
+      });
+    }
+    return res;
+  };
   const convertProperties = (properties: OutputProperty): Partial<OutputProperty> => {
     return Object.entries<OutputProperty>(properties).map(([key, prop], index) => {
       if (!prop) {
@@ -181,7 +209,7 @@ export const reverseTransformData = (output: OutputProperty) => {
         res['properties'] = convertProperties(properties);
       }
       if (items) {
-        res['items'] = convertProperties(items);
+        res['items'] = [transformArrayItem(items, key, required!.includes(key), `schema-1-${index + 1}`)];
       }
       return res;
     });
