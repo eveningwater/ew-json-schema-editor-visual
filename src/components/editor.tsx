@@ -28,11 +28,6 @@ const MonacoEditorComponent = <T extends string>({
   useEffect(() => {
      if(isString(value) && value){
         setText(value)
-        console.log(11111, value, text);
-        
-        if(editorRef.current){
-          editorRef.current.setValue(value)
-        }
      }
   },[value])
 
