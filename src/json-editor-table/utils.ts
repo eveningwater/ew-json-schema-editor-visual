@@ -37,7 +37,10 @@ export const updateNode = <T extends InputData>(key: string, newObj: T) => {
       const deepKey = getDeepKey(node?.type!);
       if (node.key === key) {
         Object.keys(newObj).forEach(k => {
-          node[k] = newObj[k];
+          // 仅改动当前的值
+          if (!['properties', 'items'].includes(k)) {
+            node[k] = newObj[k];
+          }
         });
         return true;
       }
