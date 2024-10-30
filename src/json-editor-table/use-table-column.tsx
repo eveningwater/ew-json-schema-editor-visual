@@ -2,7 +2,7 @@ import { Button, Card, Descriptions, Modal, Space, TableColumnProps } from 'antd
 import React from 'react';
 import { SchemaValidateRuleItem, SchemaValidateRuleKey, cardList, schemaValidateRule } from './const.ts';
 import type { InputData } from './data.d.ts';
-import { isBoolean } from 'lodash-es';
+import { isBoolean, isNull, isUndefined } from 'lodash-es';
 
 export interface useTableColumnProps {
     removeRow?: (k: string) => void;
@@ -64,7 +64,7 @@ export const useTableColumn = ({ removeRow, editRow, isRoot }: useTableColumnPro
                                     {cardList.map((v, index) => (
                                         <Card key={`${v}-${index}`} title={v}>
                                             {index === 0 && item.validateName}
-                                            {index === 1 && rule[item.validateName]}
+                                            {index === 1 && !isNull(rule?.[item.validateName]) && !isUndefined(rule?.[item.validateName]) ? String(rule?.[item.validateName]) : '-'}
                                             {index === 2 && item.validateLabel}
                                         </Card>
                                     ))}

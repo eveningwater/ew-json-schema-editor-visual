@@ -1,8 +1,9 @@
 import { EwJSONSchemaEditVisual } from "../json-editor-table/index.ts";
 import React, { useState } from "react";
+import { test } from './test.ts';
 
 const Demo = () => {
-  const [state, setState] = useState('');
+  const [state, setState] = useState(JSON.stringify(test));
   const onChange = (value: string) => {
     console.log(111, value);
   }
